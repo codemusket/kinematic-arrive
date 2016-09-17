@@ -2,7 +2,6 @@
 using System.Collections;
 
 // Author: Jonathan Dymond
-// Class: ITCS 4236
 // Liscense: For use only with permission of author
 // Note: This is unoptimized code, used for prototyping and easy modification.
 
