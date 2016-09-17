@@ -25,6 +25,7 @@ public class KinematicArrive : MonoBehaviour {
 	public float radius = 0f;
 	public float timeToTarget = 1f;
 	public Vector3 targetOffset = new Vector3 (0, .5f, 0);
+	public float turnSpeed = .1f;
 	public float updateTimer = .1f;
 	public float updateTime = .01f;
 
@@ -68,7 +69,7 @@ public class KinematicArrive : MonoBehaviour {
 		// update the player velocity
 		rb.velocity = steering.velocity;
 		// Slowly update the rotation over the timeToTarget time
-		transform.rotation = Quaternion.Slerp (transform.rotation, steering.rotation, Time.deltaTime * timeToTarget);
+		transform.rotation = Quaternion.Slerp (transform.rotation, steering.rotation, Time.deltaTime * turnSpeed );
 	}
 
 	void getTarget() {
