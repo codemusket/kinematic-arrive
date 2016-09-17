@@ -25,6 +25,8 @@ public class KinematicArrive : MonoBehaviour {
 	public float radius = 0f;
 	public float timeToTarget = 1f;
 	public Vector3 targetOffset = new Vector3 (0, .5f, 0);
+	public float updateTimer = .1f;
+	public float updateTime = .01f;
 
 	public Ray lastRay = new Ray(); 
 
@@ -70,8 +72,10 @@ public class KinematicArrive : MonoBehaviour {
 	}
 
 	void getTarget() {
-		// Check for mouse click
-		if ( Input.GetMouseButtonDown(0) ) {
+		// Check for mouse click && limit Raycast code to timed Interval
+		if (Input.GetMouseButton (0) && updateTimer <= 0) {
+
+			updateTimer = updateTime;
 
 			// Use the camera to create a raycast from the screen to the plane
 			Ray dir = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -79,11 +83,14 @@ public class KinematicArrive : MonoBehaviour {
 
 			// Check if ray hits the plane, if so, store in target
 			if (Physics.Raycast (dir, out hit)) 
-				if( Vector3.Distance(transform.position, hit.point ) > .1f )
-					target = hit.point + targetOffset;
+			if (Vector3.Distance (transform.position, hit.point) > .1f)
+				target = hit.point + targetOffset;
 			
 			lastRay = dir;
-		}	
+		} else {
+			// Hmm fix this?
+			updateTimer -= Mathf.Clamp(updateTime * Time.deltaTime, .001f, updateTime);
+		}
 	}
 
 	// Each frame
