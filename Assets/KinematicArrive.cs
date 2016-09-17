@@ -50,20 +50,30 @@ public class KinematicArrive : MonoBehaviour {
 		steering.velocity = target - transform.position;
 		
 		// check if in radius
-		if (steering.velocity.magnitude < radius) 
 		if (steering.velocity.magnitude < satisfactionRadius) {
+			// leave gravity unaffected when in radius, also rotation
+			if( gravity )
+				steering.velocity = new Vector3(0, rb.velocity.y, 0);	
+			else
+				steering.velocity = Vector3.zero;
+
+			steering.rotation = transform.rotation;
 			return steering;
+		}
 		
 		// we need to move target. get there in timeToTarget seconds
 		steering.velocity /= timeToTarget;
 
 		// limit speed to max
-		if( steering.velocity.magnitude > maxSpeed )
 		if( steering.velocity.magnitude > maxSpeed && speedLimit)
 		{
 			steering.velocity.Normalize();
 			steering.velocity *= maxSpeed;
 		}
+
+		// Allow gravity to work
+		if( gravity )
+			steering.velocity.y = rb.velocity.y;
 
 		// populate steering data with default rotation, and update the rotation to face target
 		steering.rotation = transform.rotation;
