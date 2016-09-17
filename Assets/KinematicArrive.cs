@@ -59,6 +59,7 @@ public class KinematicArrive : MonoBehaviour {
 
 		// limit speed to max
 		if( steering.velocity.magnitude > maxSpeed )
+		if( steering.velocity.magnitude > maxSpeed && speedLimit)
 		{
 			steering.velocity.Normalize();
 			steering.velocity *= maxSpeed;
