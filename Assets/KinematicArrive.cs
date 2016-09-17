@@ -3,7 +3,10 @@ using System.Collections;
 
 // Author: Jonathan Dymond
 // Class: ITCS 4236
+// Liscense: For use only with permission of author
+// Note: This is unoptimized code, used for prototyping and easy modification.
 
+[RequireComponent (typeof(Rigidbody))]
 public class KinematicArrive : MonoBehaviour {
 
 	// Data type used to store orientation data of the player
@@ -13,22 +16,25 @@ public class KinematicArrive : MonoBehaviour {
 		public Quaternion rotation;
 
 		public Steering() {
-			velocity = new Vector3();
+			velocity = new Vector3(0,0,0);
 			rotation = new Quaternion();
 		}
 	}
 
-	public Rigidbody rb;
-	[SerializeField] Vector3 target;
-
-	public float maxSpeed = 10f;
-	public float radius = 0f;
-	public float timeToTarget = 1f;
+	[SerializeField]
+	private Vector3 target = new Vector3(0,.5f,0);
+	private Rigidbody rb;
 	public Vector3 targetOffset = new Vector3 (0, .5f, 0);
+	public float timeToTarget = 1f;
 	public float turnSpeed = .1f;
+	public float maxSpeed = 10f;
+	public float satisfactionRadius = .1f;
+
 	public float updateTimer = .1f;
 	public float updateTime = .01f;
 
+	public bool speedLimit = true;
+	public bool gravity = true;
 	public Ray lastRay = new Ray(); 
 
 	// Use this for initialization
@@ -45,6 +51,7 @@ public class KinematicArrive : MonoBehaviour {
 		
 		// check if in radius
 		if (steering.velocity.magnitude < radius) 
+		if (steering.velocity.magnitude < satisfactionRadius) {
 			return steering;
 		
 		// we need to move target. get there in timeToTarget seconds
