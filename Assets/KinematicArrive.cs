@@ -101,7 +101,7 @@ public class KinematicArrive : MonoBehaviour {
 	void OnDrawGizmos() {
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireSphere (target, .1f);
-		Gizmos.DrawRay (lastRay);
+		Gizmos.DrawLine(lastRay.origin, target);
 	}
 
 }
